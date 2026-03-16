@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>イベントと日常 | 瀬谷すくすく保育園</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Main Container -->
+  <div class="container">
+
+    <header>
+      <a href="index.html" class="logo">
+        <img src="images/main_logo_v2.png" alt="瀬谷すくすく保育園" class="logo-img">
+      </a>
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <!-- Hamburger Menu Overlay -->
+      <nav class="mobile-nav">
+        <img src="images/rabbit_menu.png" alt="うさぎ" class="menu-rabbit">
+        <ul>
+          <li><a href="index.html">トップ</a></li>
+          <li><a href="index.html#access">アクセス</a></li>
+          <li><a href="about.html">園について</a></li>
+          <li><a href="daily.html">イベントと日常</a></li>
+          <li><a href="admission.html">入園・見学のご案内</a></li>
+          <li><a href="download.html">書類ダウンロード</a></li>
+          <li><a href="faq.html">よくあるご質問</a></li>
+        </ul>
+        <div class="nav-contact">
+          <a href="contact.html" class="btn btn-primary"><i class="fa-regular fa-envelope"></i> お問い合わせ</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="page-content pt-top">
+      
+      <!-- Daily Life & Initiatives -->
+      <section id="daily" class="daily">
+        <h2 class="section-title" style="margin-bottom: 4rem;">イベントと日常</h2>
+        
+        <div class="card fade-in" style="margin-bottom: 3rem;">
+          <h3 class="card-title">イベントカレンダー</h3>
+          <p style="font-size: 0.95rem; margin-top: 0.5rem; margin-bottom: 1.5rem; text-align: center; color: var(--text-main);">
+            遊びを通して、明るく楽しい雰囲気を育みます。<br>
+            年間を通じて、子どもたちが季節を感じられる行事を予定しています。
+          </p>
+          <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); background: white;">
+            <!-- Google Calendar Embed (Japanese Holidays as placeholder) -->
+            <iframe src="https://calendar.google.com/calendar/embed?height=400&wkst=1&bgcolor=%23ffffff&ctz=Asia%2FTokyo&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&src=amEuamFwYW5lc2UjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%230B8043" style="border-width:0" width="100%" height="400" frameborder="0" scrolling="no"></iframe>
+          </div>
+        </div>
+
+        <div class="card fade-in">
+          <h3 class="card-title">一日の流れ（予定）</h3>
+          <p style="font-size: 0.9rem; margin-top: 0.5rem; text-align: left;">
+            開所時間：月曜日～土曜日 7:00～19:00<br>
+            延長時間：7:00～7:30、18:30～19:00<br>
+            休所日：日曜・祝日・冬休み（12月29日～1月3日）
+          </p>
+          <img src="https://suku2.jp/images/daily-program.png" alt="一日の流れの表" style="margin-top: 1rem; width: 100%; border: 1px solid #eee;">
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <nav class="footer-nav">
+        <a href="index.html">トップ</a>
+        <a href="index.html#access">アクセス</a>
+        <a href="about.html">園について</a>
+        <a href="daily.html">イベントと日常</a>
+        <a href="admission.html">入園・見学のご案内</a>
+        <a href="download.html">書類ダウンロード</a>
+        <a href="faq.html">よくあるご質問</a>
+        <a href="contact.html">お問い合わせ</a>
+      </nav>
+      <p style="font-weight: 700; margin-bottom: 1rem; color: var(--primary-color); display: flex; flex-direction: column; align-items: center;">
+        <img src="images/main_logo_v2.png" alt="瀬谷すくすく保育園" class="logo-img-small">
+        <span style="display:none;">瀬谷すくすく保育園</span>
+      </p>
+      <p class="copyright">
+        &copy; 2026 瀬谷すくすく保育園 All Rights Reserved.
+      </p>
+    </footer>
+
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

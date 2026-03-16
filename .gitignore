@@ -1,0 +1,11 @@
+.venv/
+.stitch/
+__pycache__/
+*.log
+.DS_Store
+node_modules/
+dist/
+build/
+.agent/
+.gemini/
+.env
