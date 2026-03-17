@@ -13,6 +13,7 @@
   --border-radius-lg: 32px;
   --border-radius-blob: 40% 60% 70% 30% / 40% 50% 60% 50%;
   --transition: all 0.3s ease;
+  --card-spacing: 2.5rem;
 }
 
 * {
@@ -409,7 +410,7 @@ section {
   border-radius: var(--border-radius-lg);
   padding: 2rem;
   box-shadow: var(--box-shadow);
-  margin-bottom: 2rem;
+  margin-bottom: var(--card-spacing);
 }
 
 .card-title {
