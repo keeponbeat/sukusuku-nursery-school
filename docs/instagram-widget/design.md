@@ -18,8 +18,10 @@ graph LR
 - **頻度**: 1日1回（19:00 JST / 10:00 UTC）、30日1回（トークン更新）。
 - **言語**: Node.js または Python 
 - **主要機能**:
-  1. `INSTAGRAM_TOKEN`（GitHub Secretsに格納）を使用し、`https://graph.instagram.com/me/media` を叩く。
-  2. 最新の `media_url`, `permalink`, `caption`, `timestamp` を取得。
+  1. `INSTAGRAM_TOKEN` を使用し、Instagram Graph API（プロアカウント向け）を叩く。
+     - ※フォロワー数、フォロー数、投稿数の取得にはビジネス/クリエイターアカウントへの移行が必要です。
+  2. プロフィール情報（名前、アイコンURL、統計）を取得。
+  3. 最新の `media_url`, `permalink`, `caption`, `timestamp` を取得。
   3. 取得したデータを `data/instagram.json` として整形し、リポジトリにコミット。
   4. トークンの残存期間を確認し、必要に応じて `refresh_access_token` エンドポイントを叩いて更新する。
 
@@ -27,6 +29,13 @@ graph LR
 ```json
 {
   "last_updated": "2026-03-17T12:00:00Z",
+  "profile": {
+    "username": "sukusukuseya",
+    "profile_picture_url": "https://...",
+    "media_count": 120,
+    "followers_count": 350,
+    "follows_count": 210
+  },
   "posts": [
     {
       "id": "12345",
@@ -44,10 +53,11 @@ graph LR
 - **場所**: `index.html` および `js/instagram-widget.js`（新設）
 - **処理フロー**:
   1. `fetch('data/instagram.json')` でデータを読み込む。
-  2. JavaScriptで `card` 構造（Elfsight風）のHTML要素を2×2で生成。
-  3. `index.html` の所定の `div` に挿入。
+  2. 上部にプロフィールエリア（アイコン、統計、ボタン）を描画。
+  3. 下部に `card` 構造の投稿リストを2×2で生成。
 - **デザイン詳細**:
-  - `img` タグの `aspect-ratio: 1/1` と `object-fit: cover` を使用し、正方形ポラロイド風に統一。
+  - `img` タグの `aspect-ratio: 1/1` と `object-fit: cover` を使用。
+  - **角丸の無効化**: `border-radius: 0;` を適用し、シャープな正方形とする。
   - ホバー時に半透明のオーバーレイとInstagramロゴを表示。
 
 ## 3. セキュリティ設計
