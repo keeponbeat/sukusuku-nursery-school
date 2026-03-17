@@ -246,7 +246,7 @@ header {
 
 .hero p {
   font-size: 1.1rem;
-  margin-bottom: 2rem;
+  margin-bottom: var(--card-spacing);
   color: var(--text-light);
 }
 
