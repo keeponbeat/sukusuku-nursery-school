@@ -197,11 +197,6 @@ header {
   transform: translateY(0);
 }
 
-.mobile-nav ul {
-  list-style: none;
-  text-align: center;
-}
-
 .menu-rabbit {
   width: 100px;
   max-width: 30%;
@@ -209,8 +204,14 @@ header {
   animation: float 4s ease-in-out infinite;
 }
 
+.mobile-nav ul {
+  list-style: none;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
 .mobile-nav ul li {
-  margin: 1rem 0;
+  margin-bottom: 1rem;
 }
 
 .mobile-nav ul li a {
@@ -220,7 +221,7 @@ header {
 }
 
 .nav-contact {
-  margin-top: 1.5rem;
+  margin-top: 0;
 }
 
 /* Helper for subpages */
@@ -261,6 +262,14 @@ header {
   animation: blob-morph 12s infinite alternate-reverse;
 }
 
+.hero-image {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  animation: float 6s ease-in-out infinite;
+  margin-bottom: 2rem;
+}
+
 .hero h1 {
   font-size: 2.5rem;
   line-height: 1.3;
@@ -278,13 +287,6 @@ header {
   font-size: 1.1rem;
   margin-bottom: 2.5rem;
   color: var(--text-light);
-}
-
-.hero-image {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-  animation: float 6s ease-in-out infinite;
 }
 
 .hero-image img {
@@ -309,7 +311,7 @@ header {
   background-size: 100% 40px;
   background-position: top;
   border-bottom: 40px solid #fff;
-  margin-top: 40px;
+  margin-top: 0;
   margin-bottom: 0;
   position: relative;
   z-index: 5;
@@ -429,7 +431,7 @@ section {
   font-weight: 700;
   box-shadow: var(--box-shadow);
   transition: var(--transition);
-  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
   gap: 8px;
 }
 
@@ -512,7 +514,7 @@ section {
 .faq-item {
   background: white;
   border-radius: 16px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
@@ -597,7 +599,8 @@ footer {
 .map-container {
   border-radius: var(--border-radius-lg);
   overflow: hidden;
-  margin-top: 1rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
   aspect-ratio: 1 / 1;
   width: 100%;
 }
@@ -632,7 +635,7 @@ footer {
   color: white;
   padding: 2px 6px;
   border-radius: 4px;
-  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   vertical-align: middle;
 }
 
