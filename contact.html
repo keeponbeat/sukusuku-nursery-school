@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
   <!-- Main Container -->
@@ -14,7 +16,7 @@
 
     <header>
       <a href="index.html" class="logo">
-        <img src="images/main_logo_v2.png" alt="瀬谷すくすく保育園" class="logo-img">
+        <img src="images/main_logo_v3.png" alt="瀬谷すくすく保育園" class="logo-img">
       </a>
       <div class="hamburger">
         <span></span>
@@ -40,78 +42,80 @@
     </header>
 
     <main class="page-content pt-top">
-      
+
+      <h2 class="section-title">お問い合わせ</h2>
+
       <!-- Contact Section -->
-      <section id="contact" class="contact">
-        <h2 class="section-title">お問い合わせ</h2>
-        <div class="card fade-in">
-          <p style="font-size: 0.9rem; text-align: center; margin-bottom: 0.5rem;">
-            お急ぎの場合は、お電話にてご連絡ください。
-          </p>
-          <div style="text-align: center; margin-bottom: 1.5rem;">
-            <strong style="font-size: 1.5rem; display: inline-block; margin: 0.5rem 0;">TEL: <a href="tel:045-442-7123" style="color: var(--primary-color);">045-442-7123</a></strong><br>
-            <span style="font-size: 0.9rem; color: var(--text-light);">（受付時間：月〜土 7:00〜19:00）</span>
+      <section id="contact-form" class="card fade-in">
+
+        <p style="font-size: 0.9rem; text-align: center; margin-bottom: 0.5rem;">
+          お急ぎの場合は、お電話にてご連絡ください。
+        </p>
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <strong style="font-size: 1.5rem; display: inline-block; margin: 0.5rem 0;">TEL: <a href="tel:045-442-7123"
+              style="color: var(--primary-color);">045-442-7123</a></strong><br>
+          <span style="font-size: 0.9rem; color: var(--text-light);">（受付時間：月〜土 7:00〜19:00）</span>
+        </div>
+
+        <form action="#" method="POST" class="contact-form">
+          <div class="form-group">
+            <label for="category">お問い合わせの種類</label>
+            <select id="category" name="category">
+              <option value="見学について">入園・見学について</option>
+              <option value="採用について">採用について</option>
+              <option value="その他">その他のお問い合わせ</option>
+            </select>
           </div>
 
-          <form action="#" method="POST" class="contact-form">
-            <div class="form-group">
-              <label for="category">お問い合わせの種類</label>
-              <select id="category" name="category">
-                <option value="見学について">入園・見学について</option>
-                <option value="採用について">採用について</option>
-                <option value="その他">その他のお問い合わせ</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label for="name">お名前 <span class="required">必須</span></label>
+            <input type="text" id="name" name="name" required placeholder="例）瀬谷 太郎">
+          </div>
 
-            <div class="form-group">
-              <label for="name">お名前 <span class="required">必須</span></label>
-              <input type="text" id="name" name="name" required placeholder="例）瀬谷 太郎">
-            </div>
-            
-            <div class="form-group">
-              <label for="email">メールアドレス <span class="required">必須</span></label>
-              <input type="email" id="email" name="email" required placeholder="例）example@suku2.jp">
-            </div>
+          <div class="form-group">
+            <label for="email">メールアドレス <span class="required">必須</span></label>
+            <input type="email" id="email" name="email" required placeholder="例）example@suku2.jp">
+          </div>
 
-            <div class="form-group">
-              <label for="email_confirm">メールアドレス（確認） <span class="required">必須</span></label>
-              <input type="email" id="email_confirm" name="email_confirm" required placeholder="もう一度入力してください">
-            </div>
-            
-            <div class="form-group">
-              <label for="phone">電話番号</label>
-              <input type="tel" id="phone" name="phone" placeholder="例）090-1234-5678">
-            </div>
-            
-            <div class="form-group">
-              <label for="message">お問い合わせ内容 <span class="required">必須</span></label>
-              <textarea id="message" name="message" rows="5" required placeholder="ご質問やご相談内容をご記入ください。"></textarea>
-            </div>
-            
-            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; border: none;">送信する</button>
-          </form>
+          <div class="form-group">
+            <label for="email_confirm">メールアドレス（確認） <span class="required">必須</span></label>
+            <input type="email" id="email_confirm" name="email_confirm" required placeholder="もう一度入力してください">
+          </div>
 
-          <script>
-            function validateContactForm(event) {
-              const email = document.getElementById('email').value;
-              const emailConfirm = document.getElementById('email_confirm').value;
-              
-              if (email !== emailConfirm) {
-                alert('メールアドレスが一致しません。');
-                event.preventDefault();
-                return false;
-              }
-              
-              alert('お問い合わせを受け付けました。');
-              event.preventDefault(); // デモ用：実際にはサーバーに送る場合はここを削除
-              return true;
+          <div class="form-group">
+            <label for="phone">電話番号</label>
+            <input type="tel" id="phone" name="phone" placeholder="例）090-1234-5678">
+          </div>
+
+          <div class="form-group">
+            <label for="message">お問い合わせ内容 <span class="required">必須</span></label>
+            <textarea id="message" name="message" rows="5" required placeholder="ご質問やご相談内容をご記入ください。"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary"
+            style="width: 100%; margin-top: 1rem; border: none;">送信する</button>
+        </form>
+
+        <script>
+          function validateContactForm(event) {
+            const email = document.getElementById('email').value;
+            const emailConfirm = document.getElementById('email_confirm').value;
+
+            if (email !== emailConfirm) {
+              alert('メールアドレスが一致しません。');
+              event.preventDefault();
+              return false;
             }
-            
-            // 既存のonsubmitを上書きまたは紐付け
-            document.querySelector('.contact-form').onsubmit = validateContactForm;
-          </script>
 
-        </div>
+            alert('お問い合わせを受け付けました。');
+            event.preventDefault(); // デモ用：実際にはサーバーに送る場合はここを削除
+            return true;
+          }
+
+          // 既存のonsubmitを上書きまたは紐付け
+          document.querySelector('.contact-form').onsubmit = validateContactForm;
+        </script>
+
       </section>
 
     </main>
@@ -137,4 +141,5 @@
 
   <script src="js/main.js"></script>
 </body>
+
 </html>
