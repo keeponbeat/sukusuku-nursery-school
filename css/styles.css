@@ -126,7 +126,7 @@ header {
 /* CSS-based crop for the sign */
 .logo-img {
   width: auto;
-  max-width: 320px;
+  max-width: calc(100% - 80px);
   height: 70px;
   object-fit: contain;
   border-radius: 0;
