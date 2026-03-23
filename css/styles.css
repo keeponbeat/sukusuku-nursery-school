@@ -827,6 +827,14 @@ footer {
   .hero h1 {
     font-size: 3.2rem;
   }
+
+  .hero {
+    padding-top: 14rem;
+  }
+
+  .pt-top {
+    padding-top: 14rem;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -836,5 +844,13 @@ footer {
 
   header {
     max-width: 1000px !important;
+  }
+
+  .hero {
+    padding-top: 16rem;
+  }
+
+  .pt-top {
+    padding-top: 16rem;
   }
 }
