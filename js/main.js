@@ -10,40 +10,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.querySelector('.hamburger');
   const navOverlay = document.querySelector('.mobile-nav');
 
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navOverlay.classList.toggle('open');
-    document.body.classList.toggle('no-scroll');
-  });
+  if (hamburger && navOverlay) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navOverlay.classList.toggle('open');
+      document.body.classList.toggle('no-scroll');
+    });
+  }
 
   // Close mobile nav when clicking a link
   const navLinks = document.querySelectorAll('.mobile-nav a');
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      navOverlay.classList.remove('open');
-      document.body.classList.remove('no-scroll');
+  if (navLinks.length > 0) {
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (hamburger) hamburger.classList.remove('active');
+        if (navOverlay) navOverlay.classList.remove('open');
+        document.body.classList.remove('no-scroll');
+      });
     });
-  });
+  }
 
   // FAQ Accordion
   const faqItems = document.querySelectorAll('.faq-item');
-  
-  faqItems.forEach(item => {
-    const question = item.querySelector('.faq-q');
-    
-    question.addEventListener('click', () => {
-      // Toggle active state
-      item.classList.toggle('active');
-      
-      // Close others if desired (optional)
-      faqItems.forEach(otherItem => {
-        if (otherItem !== item && otherItem.classList.contains('active')) {
-          otherItem.classList.remove('active');
-        }
-      });
+  if (faqItems.length > 0) {
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-q');
+      if (question) {
+        question.addEventListener('click', () => {
+          item.classList.toggle('active');
+          faqItems.forEach(otherItem => {
+            if (otherItem !== item && otherItem.classList.contains('active')) {
+              otherItem.classList.remove('active');
+            }
+          });
+        });
+      }
     });
-  });
+  }
 
   // Intersection Observer for fade-in animations
   const observerOptions = {
@@ -61,9 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }, observerOptions);
 
   // Pause animations initially so they only run when scrolled into view
-  document.querySelectorAll('.fade-in').forEach(element => {
-    element.style.animationPlayState = 'paused';
-    observer.observe(element);
-  });
-
+  const fadeInElements = document.querySelectorAll('.fade-in');
+  if (fadeInElements.length > 0) {
+    fadeInElements.forEach(element => {
+      element.style.animationPlayState = 'paused';
+      observer.observe(element);
+    });
+  }
 });
