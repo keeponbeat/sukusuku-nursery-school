@@ -67,6 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const fadeInElements = document.querySelectorAll('.fade-in');
   if (fadeInElements.length > 0) {
     fadeInElements.forEach(element => {
+      // Don't pause the main hero image to ensure it animates immediately
+      if (element.id === 'hero-image-main') {
+        return;
+      }
       element.style.animationPlayState = 'paused';
       observer.observe(element);
     });
