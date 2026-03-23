@@ -351,9 +351,10 @@ header {
   border-radius: var(--border-radius-blob);
   box-shadow: var(--box-shadow);
   border: 8px solid white;
-  animation: blob-morph 15s infinite alternate; /* Slower for premium look */
-  position: relative; /* Ensure it respects stacking context */
-  z-index: 11; /* Slightly higher than container to be safe */
+  position: relative;
+  z-index: 11;
+  /* Combine animations: fadeIn for opacity, blob-morph for shape */
+  animation: fadeIn 0.8s ease-out forwards, blob-morph 15s infinite alternate;
 }
 
 /* Wavy Section Separators using SVG background */
