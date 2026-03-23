@@ -345,7 +345,9 @@ header {
 }
 
 .hero-image img {
-  border-radius: var(--border-radius-blob);
+  width: 100%;
+  height: auto;
+  border-radius: 24px;
   box-shadow: var(--box-shadow);
   border: 8px solid white;
 }
