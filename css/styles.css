@@ -772,8 +772,11 @@ footer {
     max-width: 740px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    justify-content: space-between;
-    padding: 1rem 2rem;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem 1rem 1rem;
+    justify-content: center;
+    background: rgba(255, 253, 247, 0.95);
   }
 
   .hamburger {
@@ -782,10 +785,22 @@ footer {
 
   .desktop-nav {
     display: flex;
-    list-style: none;
-    gap: 1.25rem;
+    flex-direction: row; /* Horizontal for menu + button */
     align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
     margin: 0;
+  }
+
+  .desktop-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
   .desktop-nav li a {
