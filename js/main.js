@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Random Hero Image
+  const heroImg = document.getElementById('hero-image-main');
+  if (heroImg) {
+    const randomNum = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
+    heroImg.src = `images/hero-${randomNum}.png`;
+  }
 
   // Hamburger Menu
   const hamburger = document.querySelector('.hamburger');
