@@ -36,7 +36,9 @@ body.no-scroll {
 }
 
 /* Visibility Utilities */
-.sp, .tab, .pc {
+.sp,
+.tab,
+.pc {
   display: none !important;
 }
 
@@ -44,6 +46,7 @@ body.no-scroll {
   .sp {
     display: block !important;
   }
+
   br.sp {
     display: inline !important;
   }
@@ -53,6 +56,7 @@ body.no-scroll {
   .tab {
     display: block !important;
   }
+
   br.tab {
     display: inline !important;
   }
@@ -62,6 +66,7 @@ body.no-scroll {
   .pc {
     display: block !important;
   }
+
   br.pc {
     display: inline !important;
   }
@@ -285,12 +290,16 @@ header {
   padding: 8rem 1.5rem 4rem;
   text-align: center;
   overflow: hidden;
-  z-index: 5; /* Create stacking context for bubbles */
+  z-index: 5;
+  /* Create stacking context for bubbles */
 }
 
-.hero h1, .hero p, .hero-image {
+.hero h1,
+.hero p,
+.hero-image {
   position: relative;
-  z-index: 10; /* Ensure content is above bubbles */
+  z-index: 10;
+  /* Ensure content is above bubbles */
 }
 
 .hero-bg-blob {
@@ -360,7 +369,8 @@ header {
 }
 
 .hero-image img.hero-img-exterior {
-  object-position: center 30%; /* Shift image content downwards to show sign */
+  object-position: center 30%;
+  /* Shift image content downwards to show sign */
 }
 
 /* Wavy Section Separators using SVG background */
@@ -449,6 +459,7 @@ section {
 
 /* Force 4 columns for Instagram widget on mobile */
 @media (max-width: 767px) {
+
   div[class*="elfsight-app"] div[class*="GridInner"],
   div[class*="elfsight-app"] div[class*="PostsGrid__Inner"],
   div[class*="elfsight-app"] div[class*="Layout__Inner"] {
@@ -456,7 +467,7 @@ section {
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 4px !important;
   }
-  
+
   /* Adjust image ratio/size if necessary */
   div[class*="elfsight-app"] div[class*="Post__Media"] {
     padding-top: 100% !important;
@@ -868,7 +879,8 @@ footer {
     background: var(--bg-color);
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
     position: relative;
-    overflow: hidden; /* Prevent blobs from spilling out */
+    overflow: hidden;
+    /* Prevent blobs from spilling out */
   }
 
   header {
@@ -888,7 +900,8 @@ footer {
 
   .desktop-nav {
     display: flex;
-    flex-direction: row; /* Horizontal for menu + button */
+    flex-direction: row;
+    /* Horizontal for menu + button */
     align-items: center;
     justify-content: center;
     gap: 1rem;
@@ -920,7 +933,7 @@ footer {
   .nav-contact-desktop {
     margin-left: 0.5rem;
   }
-  
+
   .nav-contact-desktop .btn {
     padding: 0.6rem 1.2rem;
     font-size: 0.85rem;
@@ -932,7 +945,7 @@ footer {
   }
 
   .hero {
-    padding-top: 10rem;
+    padding-top: 16rem;
   }
 
   .pt-top {
@@ -970,7 +983,7 @@ footer {
   }
 
   .hero {
-    padding-top: 12rem;
+    padding-top: 18rem;
   }
 
   .pt-top {
