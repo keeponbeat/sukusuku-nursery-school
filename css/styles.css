@@ -797,7 +797,7 @@ footer {
     background: var(--bg-color);
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
     position: relative;
-    overflow: visible;
+    overflow: hidden; /* Prevent blobs from spilling out */
   }
 
   header {
@@ -880,7 +880,6 @@ footer {
 
   .hero {
     padding-top: 16rem;
-    overflow: visible; /* Ensure blobs aren't cut off */
   }
 
   .pt-top {
