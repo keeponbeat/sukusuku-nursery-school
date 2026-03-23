@@ -434,6 +434,22 @@ section {
   margin: 0 auto;
 }
 
+/* Force 4 columns for Instagram widget on mobile */
+@media (max-width: 767px) {
+  div[class*="elfsight-app"] div[class*="GridInner"],
+  div[class*="elfsight-app"] div[class*="PostsGrid__Inner"],
+  div[class*="elfsight-app"] div[class*="Layout__Inner"] {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 4px !important;
+  }
+  
+  /* Adjust image ratio/size if necessary */
+  div[class*="elfsight-app"] div[class*="Post__Media"] {
+    padding-top: 100% !important;
+  }
+}
+
 .news-list-container {
   max-height: 200px;
   overflow-y: auto;
