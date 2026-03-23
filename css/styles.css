@@ -848,9 +848,25 @@ footer {
 
   .hero {
     padding-top: 16rem;
+    overflow: visible; /* Ensure blobs aren't cut off */
   }
 
   .pt-top {
     padding-top: 16rem;
+  }
+
+  /* Restore and enlarge blobs for PC */
+  .hero-bg-blob {
+    width: 600px;
+    height: 600px;
+    top: -100px;
+    right: -150px;
+  }
+
+  .hero-bg-blob-2 {
+    width: 500px;
+    height: 500px;
+    bottom: -50px;
+    left: -150px;
   }
 }
