@@ -624,6 +624,25 @@ section {
   /* Special alert look without card shadow */
 }
 
+/* Specialized Card for Contact/Call-to-Action */
+.card-contact {
+  text-align: center;
+  background: white !important;
+  border: 2px solid #FEF5D4 !important;
+  box-shadow: none !important;
+}
+
+.btn-secondary-outline {
+  background: white !important;
+  border: 2px solid var(--secondary-color) !important;
+  color: var(--secondary-color) !important;
+}
+
+.btn-secondary-outline:hover {
+  background: var(--secondary-color) !important;
+  color: white !important;
+}
+
 /* FAQ */
 .faq-item {
   background: white;
