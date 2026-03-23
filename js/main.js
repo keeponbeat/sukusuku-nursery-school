@@ -4,6 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroImg) {
     const randomNum = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3
     heroImg.src = `images/hero-${randomNum}.png`;
+    
+    // Add specific class for exterior image to adjust positioning
+    if (randomNum === 3) {
+      heroImg.classList.add('hero-img-exterior');
+    } else {
+      heroImg.classList.remove('hero-img-exterior');
+    }
   }
 
   // Hamburger Menu

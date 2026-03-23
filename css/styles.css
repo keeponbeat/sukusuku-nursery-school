@@ -357,6 +357,10 @@ header {
   animation: fadeIn 0.8s ease-out forwards, blob-morph 15s infinite alternate;
 }
 
+.hero-image img.hero-img-exterior {
+  object-position: center 30%; /* Shift image content downwards to show sign */
+}
+
 /* Wavy Section Separators using SVG background */
 .wave-top,
 .wave-bottom {
