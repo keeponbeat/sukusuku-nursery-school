@@ -741,6 +741,18 @@ footer {
   color: white;
 }
 
+/* Desktop Navigation Items */
+.desktop-nav {
+  display: none;
+}
+
+/* Multi-column Grid Utility */
+.grid-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 /* Media Queries for Tablet/Desktop */
 @media (min-width: 768px) {
   body {
@@ -748,22 +760,104 @@ footer {
   }
 
   .container {
-    max-width: 500px;
+    max-width: 740px;
     margin: 0 auto;
     background: var(--bg-color);
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
     position: relative;
-    overflow: hidden;
-  }
-
-  .card {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
+    overflow: visible;
   }
 
   header {
-    max-width: 500px;
-    left: 50%;
-    transform: translateX(-50%);
+    max-width: 740px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  .desktop-nav {
+    display: flex;
+    list-style: none;
+    gap: 1.25rem;
+    align-items: center;
+    margin: 0;
+  }
+
+  .desktop-nav li a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-main);
+    transition: var(--transition);
+  }
+
+  .desktop-nav li a:hover {
+    color: var(--accent-color);
+  }
+
+  .nav-contact-desktop {
+    margin-left: 0.5rem;
+  }
+  
+  .nav-contact-desktop .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+  }
+
+  .hero h1 {
+    font-size: 3.2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1000px;
+  }
+
+  header {
+    max-width: 1000px !important;
+  }
+
+  .grid-2 {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .grid-2 > * {
+    flex: 1;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .hero {
+    flex-direction: row-reverse;
+    justify-content: center;
+    gap: 3rem;
+    padding: 10rem 3rem 5rem;
+    text-align: left;
+  }
+
+  .hero h1 {
+    text-align: left;
+    margin-left: 0;
+  }
+  
+  .hero h1 span::after {
+    left: 0;
+    transform: none;
+  }
+
+  .hero p {
+    margin-left: 0;
+  }
+
+  .hero-bg-blob {
+    width: 500px;
+    height: 500px;
   }
 }
