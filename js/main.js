@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     navOverlay.classList.toggle('open');
+    document.body.classList.toggle('no-scroll');
   });
 
   // Close mobile nav when clicking a link
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', () => {
       hamburger.classList.remove('active');
       navOverlay.classList.remove('open');
+      document.body.classList.remove('no-scroll');
     });
   });
 
