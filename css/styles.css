@@ -33,6 +33,38 @@ body.no-scroll {
   overflow: hidden;
 }
 
+/* Visibility Utilities */
+.sp, .tab, .pc {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .sp {
+    display: block !important;
+  }
+  br.sp {
+    display: inline !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tab {
+    display: block !important;
+  }
+  br.tab {
+    display: inline !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pc {
+    display: block !important;
+  }
+  br.pc {
+    display: inline !important;
+  }
+}
+
 a {
   text-decoration: none;
   color: inherit;
