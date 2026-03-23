@@ -13,6 +13,8 @@
   --border-radius-lg: 32px;
   --border-radius-blob: 40% 60% 70% 30% / 40% 50% 60% 50%;
   --transition: all 0.3s ease;
+  --card-padding-sp: 1.5rem;
+  --card-padding-pc: 2.5rem;
 }
 
 * {
@@ -473,10 +475,16 @@ section {
 .news-insta {
   background: white;
   border-radius: var(--border-radius-lg);
-  padding: 2rem 1.5rem;
+  padding: var(--card-padding-sp);
   box-shadow: var(--box-shadow);
   margin-bottom: 2rem;
   position: relative;
+}
+
+@media (min-width: 480px) {
+  .news-insta {
+    padding: var(--card-padding-pc);
+  }
 }
 
 .news-item {
@@ -546,7 +554,13 @@ section {
   background: var(--blob-peach);
   border-radius: var(--border-radius-lg);
   margin: 2rem 1.5rem;
-  padding: 3rem 1.5rem;
+  padding: var(--card-padding-sp);
+}
+
+@media (min-width: 480px) {
+  .about {
+    padding: var(--card-padding-pc);
+  }
 }
 
 .manager-profile {
@@ -569,7 +583,7 @@ section {
 .card {
   background: white;
   border-radius: var(--border-radius-lg);
-  padding: 1rem;
+  padding: var(--card-padding-sp);
   box-shadow: var(--box-shadow);
   margin-bottom: 2rem;
   margin-left: 0.75rem;
@@ -579,7 +593,7 @@ section {
 
 @media (min-width: 480px) {
   .card {
-    padding: 2rem;
+    padding: var(--card-padding-pc);
     margin-left: 1.5rem;
     margin-right: 1.5rem;
   }
