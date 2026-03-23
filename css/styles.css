@@ -822,42 +822,4 @@ footer {
   header {
     max-width: 1000px !important;
   }
-
-  .grid-2 {
-    flex-direction: row;
-    align-items: stretch;
-  }
-
-  .grid-2 > * {
-    flex: 1;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .hero {
-    flex-direction: row-reverse;
-    justify-content: center;
-    gap: 3rem;
-    padding: 10rem 3rem 5rem;
-    text-align: left;
-  }
-
-  .hero h1 {
-    text-align: left;
-    margin-left: 0;
-  }
-  
-  .hero h1 span::after {
-    left: 0;
-    transform: none;
-  }
-
-  .hero p {
-    margin-left: 0;
-  }
-
-  .hero-bg-blob {
-    width: 500px;
-    height: 500px;
-  }
 }
