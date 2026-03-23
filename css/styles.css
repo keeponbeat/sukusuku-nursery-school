@@ -320,7 +320,7 @@ header {
 .hero-image {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 550px;
   animation: float 6s ease-in-out infinite;
   margin-bottom: 2rem;
 }
