@@ -932,6 +932,12 @@ footer {
     color: var(--accent-color);
   }
 
+  .desktop-nav li a.active {
+    position: relative;
+    pointer-events: none;
+    cursor: default;
+  }
+
   .desktop-nav li a.active::after {
     content: '';
     position: absolute;
