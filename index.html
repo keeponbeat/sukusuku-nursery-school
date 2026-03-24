@@ -8,8 +8,7 @@
   <meta name="description" content="瀬谷すくすく保育園の新しいホームページです。毎日の元気な様子はInstagramで配信中！見学・入園のご案内はこちら。">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Elfsight Instagram Widget script -->
-  <script src="https://elfsightcdn.com/platform.js" async></script>
+  <link rel="stylesheet" href="css/instagram.css">
 </head>
 
 <body>
@@ -90,7 +89,9 @@
           <h2 class="insta-title-main"><i class="fa-brands fa-instagram"></i>日々の様子はInstagramで！</h2>
         </div>
 
-        <div class="elfsight-app-5ca52e6a-f6e7-4073-9e24-0e0b05ff27c8" data-elfsight-app-lazy></div>
+        <div id="instafeed" class="insta-grid">
+          <!-- JS will populate posts here -->
+        </div>
 
         <a href="https://www.instagram.com/sukusukuseya/" class="btn btn-instagram" target="_blank">
           <i class="fa-brands fa-instagram"></i> 公式Instagramを見る
@@ -140,6 +141,8 @@
 
   </div>
 
+  <script src="js/config.js"></script>
+  <script src="js/instagram.js"></script>
   <script src="js/main.js"></script>
 </body>
 
