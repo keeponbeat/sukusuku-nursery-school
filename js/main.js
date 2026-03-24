@@ -55,6 +55,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Set active nav link based on current page
+  const currentPath = window.location.pathname;
+  let pageFile = currentPath.split('/').pop();
+  if (pageFile === '' || pageFile === '/') {
+    pageFile = 'index.html';
+  }
+
+  const allLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a, .footer-nav a');
+  allLinks.forEach(link => {
+    const href = link.getAttribute('href').split('#')[0];
+    if (href === pageFile || (pageFile === 'index.html' && (href === './' || href === ''))) {
+      link.classList.add('active');
+    }
+  });
+
   // Intersection Observer for fade-in animations
   const observerOptions = {
     threshold: 0.1,
@@ -71,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, observerOptions);
 
   // Pause animations initially so they only run when scrolled into view
+  const fadeInElements = document.querySelectorAll('.fade-in');
   if (fadeInElements.length > 0) {
     fadeInElements.forEach(element => {
       // Don't pause the main hero image to ensure it animates immediately
