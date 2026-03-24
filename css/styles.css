@@ -944,19 +944,14 @@ footer {
   }
 
   .mobile-nav ul li a.active {
-    position: relative;
     display: inline-block;
-  }
-
-  .mobile-nav ul li a.active::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 10%;
-    width: 80%;
-    height: 4px;
-    background: var(--primary-color);
-    border-radius: 2px;
+    background: var(--blob-peach);
+    color: var(--accent-color);
+    padding: 0.2rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    pointer-events: none;
+    cursor: default;
   }
 
   .nav-contact-desktop {
