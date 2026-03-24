@@ -9,3 +9,4 @@ build/
 .agent/
 .gemini/
 .env
+js/insta_feed.json
