@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const feedContainer = document.getElementById('instafeed');
-  if (!feedContainer || typeof IG_ACCESS_TOKEN === 'undefined') return;
+  if (!feedContainer) return;
 
   const limit = 6;
-  const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp&access_token=${IG_ACCESS_TOKEN}`;
+  const url = `https://getinstagramfeed-54zdoagxya-an.a.run.app`;
 
   fetch(url)
     .then(res => res.json())
