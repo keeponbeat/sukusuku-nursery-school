@@ -943,17 +943,6 @@ footer {
     border-radius: 2px;
   }
 
-  .mobile-nav ul li a.active {
-    display: inline-block;
-    background: var(--blob-peach);
-    color: var(--accent-color);
-    padding: 0.2rem 1.5rem;
-    border-radius: 12px;
-    font-weight: 700;
-    pointer-events: none;
-    cursor: default;
-  }
-
   .nav-contact-desktop {
     margin-left: 0.5rem;
   }
