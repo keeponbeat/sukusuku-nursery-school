@@ -1,0 +1,35 @@
+name: Fetch Instagram Feed
+
+on:
+  schedule:
+    # 3時間おきに実行 (UTC時間での指定なので日本時間でも3時間おきになります)
+    - cron: '0 */3 * * *'
+  workflow_dispatch: # 手動実行も可能にする設定
+
+jobs:
+  update-feed:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # リポジトリへの書き込み権限を付与
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch Instagram Data
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: node scripts/fetch_instagram.js
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add js/insta_feed.json
+          # 更新差分がある場合のみコミットしてPushする
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(instagram): auto-update feed [skip ci]" && git push)

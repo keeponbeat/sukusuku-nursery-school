@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!feedContainer) return;
 
   const limit = 6;
-  const url = `https://getinstagramfeed-54zdoagxya-an.a.run.app`;
+  // GitHub Actionが3時間ごとに更新する静的JSONを読み込むだけなので高速
+  const url = `js/insta_feed.json`;
 
   fetch(url)
     .then(res => res.json())
