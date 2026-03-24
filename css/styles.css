@@ -434,6 +434,44 @@ section {
   border-radius: 4px;
 }
 
+.section-title.underline-wave::after,
+.section-title.underline-flag::after,
+.section-title.underline-star::after,
+.section-title.underline-bubble::after {
+  background-color: transparent;
+  border-radius: 0;
+  width: 110%;
+  left: -5%;
+}
+
+.section-title.underline-wave::after {
+  background: url('../images/pattern_wave.png') repeat-x center;
+  background-size: 60px 40px;
+  height: 40px;
+  bottom: -28px;
+}
+
+.section-title.underline-flag::after {
+  background: url('../images/pattern_flag.png') repeat-x center;
+  background-size: 80px 40px;
+  height: 40px;
+  bottom: -32px;
+}
+
+.section-title.underline-star::after {
+  background: url('../images/pattern_star.png') repeat-x center;
+  background-size: 50px 30px;
+  height: 30px;
+  bottom: -22px;
+}
+
+.section-title.underline-bubble::after {
+  background: url('../images/pattern_bubble.png') repeat-x center;
+  background-size: 80px 40px;
+  height: 40px;
+  bottom: -28px;
+}
+
 
 /* Instagram Special Decoration */
 .insta-header {
