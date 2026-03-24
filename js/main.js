@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pageFile = 'index.html';
   }
 
-  const allLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a, .footer-nav a');
+  const allLinks = document.querySelectorAll('.desktop-nav a, .mobile-nav a');
   allLinks.forEach(link => {
     const href = link.getAttribute('href').split('#')[0];
     if (href === pageFile || (pageFile === 'index.html' && (href === './' || href === ''))) {
