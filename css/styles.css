@@ -9,6 +9,7 @@
   --text-light: #8A8174;
   --blob-peach: #FFE5D9;
   --blob-green: #D4E2D9;
+  --blob-blue: #E0F4F7;
   --box-shadow: 0 8px 24px rgba(169, 155, 142, 0.15);
   --border-radius-lg: 32px;
   --border-radius-blob: 40% 60% 70% 30% / 40% 50% 60% 50%;
@@ -1004,4 +1005,46 @@ footer {
     bottom: -50px;
     left: -150px;
   }
+}
+/* School Tour Section Layout */
+.tour-flex-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tour-illustration {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.tour-img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  display: block;
+}
+
+.tour-content {
+  flex: 1;
+}
+
+@media (min-width: 1024px) {
+  .tour-flex-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+    padding: 0.5rem;
+  }
+  
+  .tour-illustration {
+    width: 42%;
+    margin: 0;
+  }
+  
+  .tour-content {
+    width: 58%;
+  }
+  
 }

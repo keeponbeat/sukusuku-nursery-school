@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }, observerOptions);
 
   // Pause animations initially so they only run when scrolled into view
-  const fadeInElements = document.querySelectorAll('.fade-in');
   if (fadeInElements.length > 0) {
     fadeInElements.forEach(element => {
       // Don't pause the main hero image to ensure it animates immediately
