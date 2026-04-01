@@ -70,7 +70,7 @@
           <span style="font-size: 0.9rem; color: var(--text-light);">（受付時間：月〜土 7:00〜19:00）</span>
         </div>
 
-        <form action="#" method="POST" class="contact-form">
+        <form action="send_mail.php" method="POST" class="contact-form">
           <div class="form-group">
             <label for="category">お問い合わせの種類</label>
             <select id="category" name="category">
@@ -111,21 +111,37 @@
 
         <script>
           function validateContactForm(event) {
-            const email = document.getElementById('email').value;
-            const emailConfirm = document.getElementById('email_confirm').value;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const emailConfirm = document.getElementById('email_confirm').value.trim();
+            const message = document.getElementById('message').value.trim();
 
+            // 必須項目のチェック
+            if (!name || !email || !emailConfirm || !message) {
+              alert('必須項目をすべて入力してください。');
+              event.preventDefault();
+              return false;
+            }
+
+            // メールアドレスの一致チェック
             if (email !== emailConfirm) {
               alert('メールアドレスが一致しません。');
               event.preventDefault();
               return false;
             }
 
-            alert('お問い合わせを受け付けました。');
-            event.preventDefault(); // デモ用：実際にはサーバーに送る場合はここを削除
+            // メールアドレスの形式チェック（簡易）
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+              alert('正しいメールアドレスの形式を入力してください。');
+              event.preventDefault();
+              return false;
+            }
+
+            // バリデーション成功：そのまま action へ送信されます
             return true;
           }
 
-          // 既存のonsubmitを上書きまたは紐付け
           document.querySelector('.contact-form').onsubmit = validateContactForm;
         </script>
 
