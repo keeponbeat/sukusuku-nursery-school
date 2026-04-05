@@ -585,11 +585,47 @@ section {
 }
 
 .manager-avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
+  width: 15rem;
+  height: 15rem;
+  border-radius: var(--border-radius-blob);
+  box-shadow: var(--box-shadow);
+  border: 4px solid white;
+  margin-bottom: 1.5rem;
   object-fit: cover;
+  transition: var(--transition);
+}
+
+.manager-avatar:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+.profile-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .profile-flex {
+    flex-direction: row;
+    text-align: left;
+    align-items: flex-start;
+    padding: 1rem 0;
+  }
+
+  .profile-flex.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .manager-avatar {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .manager-profile-content {
+    flex: 1;
+  }
 }
 
 /* Daily Life & Admission */
@@ -623,6 +659,148 @@ section {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+/* Profiles & Signatures */
+.profile-signature {
+  text-align: right;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.profile-signature small {
+  color: var(--text-light);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.profile-signature p {
+  font-weight: 700;
+  margin: 0;
+}
+
+.profile-meta {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--accent-color);
+}
+
+.profile-name {
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+}
+
+/* Info Lists & Tables */
+.philosophy-list {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--text-main);
+  margin: 0 auto;
+  padding: 0;
+  list-style-type: decimal;
+  list-style-position: inside;
+  text-align: center;
+}
+
+.philosophy-list li {
+  margin-bottom: 0.5rem;
+}
+
+.info-table {
+  width: 100%;
+  font-size: 0.9rem;
+  text-align: left;
+  border-collapse: collapse;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.info-table tr {
+  border-bottom: 1px dashed #ddd;
+}
+
+.info-table th {
+  padding: 0.75rem 0;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+}
+
+.info-table td {
+  padding: 0.75rem 0;
+  text-align: right;
+}
+
+#facility-info .info-table th {
+  width: 30%;
+  text-align: left;
+}
+
+#facility-info .info-table td {
+  text-align: left;
+}
+
+/* Associated Facilities */
+.associated-desc {
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.associated-card {
+  font-size: 0.85rem;
+  text-align: left;
+  margin-bottom: 1rem;
+  background: #fafafa;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: var(--transition);
+}
+
+.associated-card:hover {
+  background: white;
+  border-color: var(--primary-color);
+  box-shadow: var(--box-shadow);
+  transform: translateY(-2px);
+}
+
+.associated-card:last-child {
+  margin-bottom: 0;
+}
+
+/* Utils */
+.mb-lg {
+  margin-bottom: 2.5rem !important;
+}
+
+.mb-md {
+  margin-bottom: 1.5rem !important;
+}
+
+.mb-sm {
+  margin-bottom: 1rem !important;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.fw-bold {
+  font-weight: 700 !important;
 }
 
 .card p {
@@ -1024,6 +1202,7 @@ footer {
     left: -150px;
   }
 }
+
 /* School Tour Section Layout */
 .tour-flex-container {
   display: flex;
@@ -1055,14 +1234,14 @@ footer {
     gap: 3rem;
     padding: 0.5rem;
   }
-  
+
   .tour-illustration {
     width: 42%;
     margin: 0;
   }
-  
+
   .tour-content {
     width: 58%;
   }
-  
+
 }
