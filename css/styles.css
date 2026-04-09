@@ -698,13 +698,22 @@ section {
   color: var(--text-main);
   margin: 0 auto;
   padding: 0;
-  list-style-type: decimal;
-  list-style-position: inside;
+  list-style: none;
   text-align: center;
 }
 
 .philosophy-list li {
   margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.philosophy-list li::before {
+  content: '\f4d8'; /* Font Awesome seedling icon */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  color: var(--secondary-color);
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
 }
 
 .policy-list {
