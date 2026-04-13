@@ -3,6 +3,10 @@
  * お問い合わせフォーム送信処理 (Lolipopサーバー用)
  */
 
+// 文字コード設定（処理の最初に行う）
+mb_internal_encoding("UTF-8");
+mb_language("neutral");
+
 // -------------------------------------------------------------------------
 // 設定
 // -------------------------------------------------------------------------
@@ -29,14 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone    = htmlspecialchars($_POST["phone"], ENT_QUOTES, 'UTF-8');
     $message  = htmlspecialchars($_POST["message"], ENT_QUOTES, 'UTF-8');
 
-    // 文字コード設定
-    mb_language("Japanese");
-    mb_internal_encoding("UTF-8");
-
     // ヘッダー
-    $headers = "From: " . mb_encode_header_name($from_name) . " <" . $from_email . ">\r\n";
+    $headers = "From: " . mb_encode_mimeheader($from_name, "UTF-8") . " <" . $from_email . ">\r\n";
     $headers .= "Reply-To: " . $email . "\r\n";
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers .= "Content-Transfer-Encoding: 8bit\r\n";
 
     // -------------------------------------------------------------------------
     // 1. 園側への通知メール
@@ -53,8 +54,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // -------------------------------------------------------------------------
     // 2. ユーザーへの自動返信メール
     // -------------------------------------------------------------------------
-    $headers_user = "From: " . mb_encode_header_name($from_name) . " <" . $from_email . ">\r\n";
+    $headers_user = "From: " . mb_encode_mimeheader($from_name, "UTF-8") . " <" . $from_email . ">\r\n";
     $headers_user .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers_user .= "Content-Transfer-Encoding: 8bit\r\n";
 
     $body_user = $name . " 様\n\n";
     $body_user .= "お問い合わせありがとうございます。瀬谷すくすく保育園です。\n";
@@ -86,10 +88,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
 }
 
-/**
- * 送信元の名前を正しくエンコードする
- */
-function mb_encode_header_name($name) {
-    return mb_encode_mimeheader($name, "UTF-8");
-}
 ?>
