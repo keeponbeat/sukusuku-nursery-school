@@ -33,6 +33,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone    = htmlspecialchars($_POST["phone"], ENT_QUOTES, 'UTF-8');
     $message  = htmlspecialchars($_POST["message"], ENT_QUOTES, 'UTF-8');
 
+    // -------------------------------------------------------------------------
+    // スパム判定
+    // -------------------------------------------------------------------------
+    $is_spam = false;
+
+    // 1. 名前が特定のスパム名の場合
+    if ($name === 'RobertsaurL') {
+        $is_spam = true;
+    }
+
+    // 2. メッセージが全て半角英数字・記号のみの場合（日本語が含まれない）
+    // ※正規の問い合わせであれば通常は日本語が含まれるため。
+    if (!empty($message) && preg_match('/^[!-~ \s\r\n]+$/', $message)) {
+        $is_spam = true;
+    }
+
+    if ($is_spam) {
+        // スパム判定時は送信処理を行わずに完了ページへリダイレクト（スパム業者に成功したと思わせるため）
+        header("Location: thanks.html");
+        exit;
+    }
+
     // ヘッダー
     $headers = "From: " . mb_encode_mimeheader($from_name, "UTF-8") . " <" . $from_email . ">\r\n";
     $headers .= "Reply-To: " . $email . "\r\n";
