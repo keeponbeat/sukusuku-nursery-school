@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
           html += `
             <a href="${post.permalink}" target="_blank" class="insta-item">
               <div class="insta-img-wrapper">
-                <img src="${imgUrl}" alt="${altText}">
+                <img src="${imgUrl}" alt="${altText}" referrerpolicy="no-referrer">
                 <div class="insta-hover">
                   <p class="insta-caption">${hoverText}</p>
                 </div>

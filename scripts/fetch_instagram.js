@@ -41,12 +41,24 @@ async function run() {
 
     // 3. 最新の投稿データを取得
     console.log('Fetching Instagram Media...');
-    const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp&access_token=${TOKEN}`;
+    const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,children{media_url,media_type,thumbnail_url}&access_token=${TOKEN}`;
     const res = await fetch(url);
     const data = await res.json();
 
     if (data.data) {
-      const posts = data.data.slice(0, LIMIT);
+      const posts = data.data.slice(0, LIMIT).map(post => {
+        // CAROUSEL_ALBUM（スライド投稿）の場合、childrenの1枚目の画像をメイン画像として採用する
+        // これにより、モバイルブラウザでの表示互換性を高める
+        if (post.media_type === 'CAROUSEL_ALBUM' && post.children && post.children.data && post.children.data.length > 0) {
+          const firstChild = post.children.data[0];
+          const bestUrl = (firstChild.media_type === 'VIDEO') ? firstChild.thumbnail_url : firstChild.media_url;
+          return {
+            ...post,
+            media_url: bestUrl || post.media_url
+          };
+        }
+        return post;
+      });
       // 投稿データとともに、前回のリフレッシュ時間も一緒にJSONへ保存（状態の永続化）
       fs.writeFileSync(FEED_PATH, JSON.stringify({ data: posts, last_refresh: lastRefresh }, null, 2));
       console.log('Successfully saved to js/insta_feed.json');
