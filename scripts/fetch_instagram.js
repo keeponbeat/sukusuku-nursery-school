@@ -1,18 +1,25 @@
 const fs = require('fs');
 
 const TOKEN = process.env.IG_ACCESS_TOKEN;
-if (!TOKEN) {
-  console.error('Error: IG_ACCESS_TOKEN environment variable is missing.');
+const APP_ID = process.env.IG_APP_ID;
+const APP_SECRET = process.env.IG_APP_SECRET;
+const BUSINESS_ID = process.env.IG_BUSINESS_ID;
+
+if (!TOKEN || !APP_ID || !APP_SECRET || !BUSINESS_ID) {
+  console.error('Error: Required environment variables (IG_ACCESS_TOKEN, IG_APP_ID, IG_APP_SECRET, IG_BUSINESS_ID) are missing.');
   process.exit(1);
 }
 
 const LIMIT = 6;
 const FEED_PATH = 'js/insta_feed.json';
+const API_VERSION = 'v22.0';
 
 async function run() {
   try {
-    // 1. 既存のJSONファイルを読み込んで前回のリフレッシュ時間を取得
+    let currentToken = TOKEN;
     let lastRefresh = 0;
+
+    // 1. 既存のJSONファイルを読み込んで前回のリフレッシュ時間を取得
     if (fs.existsSync(FEED_PATH)) {
       try {
         const existingData = JSON.parse(fs.readFileSync(FEED_PATH, 'utf8'));
@@ -23,25 +30,25 @@ async function run() {
     }
 
     const now = Date.now();
-    // 2. 前回のリフレッシュから30日以上（約25億9200万ミリ秒）経過していればリフレッシュAPIを叩く
-    // ※有効期限60日のうち、残り30日を切ったタイミングで延長させる安全設計
+    // 2. 前回のリフレッシュから30日以上経過していればリフレッシュ（長期トークンへの交換・延長）を試みる
     if (now - lastRefresh > 2592000000) {
-      console.log('Token is older than 30 days. Attempting to refresh...');
-      const refreshUrl = `https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${TOKEN}`;
+      console.log('Attempting to refresh/exchange token...');
+      const refreshUrl = `https://graph.facebook.com/${API_VERSION}/oauth/access_token?grant_type=fb_exchange_token&client_id=${APP_ID}&client_secret=${APP_SECRET}&fb_exchange_token=${currentToken}`;
       const refreshRes = await fetch(refreshUrl);
       const refreshData = await refreshRes.json();
       
       if (refreshData.access_token) {
-        console.log('Successfully requested token refresh from Meta. Lifetime extended to 60 days.');
-        lastRefresh = now; // 成功したらタイムスタンプを更新
+        console.log('Successfully refreshed/exchanged token.');
+        currentToken = refreshData.access_token;
+        lastRefresh = now;
       } else {
-        console.warn('Failed to refresh token, or token already refreshed recently:', refreshData);
+        console.warn('Token refresh/exchange returned no new token. It might be already long-lived or invalid:', refreshData);
       }
     }
 
-    // 3. 最新の投稿データを取得
-    console.log('Fetching Instagram Media...');
-    const url = `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,children{media_url,media_type,thumbnail_url}&access_token=${TOKEN}`;
+    // 3. 最新の投稿データを取得 (Instagram Graph API 方式)
+    console.log('Fetching Instagram Media from Business Account...');
+    const url = `https://graph.facebook.com/${API_VERSION}/${BUSINESS_ID}/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,children{media_url,media_type,thumbnail_url}&access_token=${currentToken}`;
     const res = await fetch(url);
     const data = await res.json();
 
@@ -59,11 +66,14 @@ async function run() {
         }
         return post;
       });
-      // 投稿データとともに、前回のリフレッシュ時間も一緒にJSONへ保存（状態の永続化）
+      // 投稿データとともに、前回のリフレッシュ時間も一緒にJSONへ保存
       fs.writeFileSync(FEED_PATH, JSON.stringify({ data: posts, last_refresh: lastRefresh }, null, 2));
       console.log('Successfully saved to js/insta_feed.json');
     } else {
       console.error('No data found from Instagram API:', data);
+      if (data.error) {
+        console.error('Error Details:', JSON.stringify(data.error, null, 2));
+      }
       process.exit(1);
     }
 
