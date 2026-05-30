@@ -12,7 +12,7 @@ if (!TOKEN || !APP_ID || !APP_SECRET || !BUSINESS_ID) {
 
 const LIMIT = 6;
 const FEED_PATH = 'js/insta_feed.json';
-const API_VERSION = 'v22.0';
+const API_VERSION = 'v25.0';
 
 async function run() {
   try {
