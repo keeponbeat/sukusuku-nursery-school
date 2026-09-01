@@ -19,6 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: master
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -41,7 +42,22 @@ jobs:
           # 更新差分がある場合のみコミットしてPushする（競合防止のためリモートの最新を取り込んでrebase）
           if ! git diff --staged --quiet; then
             git commit -m "chore(instagram): auto-update feed [skip ci]"
-            for i in 1 2 3; do
-              git pull --rebase -X theirs origin master && git push origin master && break || sleep 2
+            SUCCESS=0
+            for i in {1..5}; do
+              echo "Attempt $i to push changes..."
+              git pull --rebase -X theirs origin master || true
+              if git push origin master; then
+                echo "Successfully pushed changes to master"
+                SUCCESS=1
+                break
+              fi
+              echo "Push failed, retrying in 3 seconds..."
+              sleep 3
             done
+            if [ $SUCCESS -ne 1 ]; then
+              echo "Error: Failed to push after multiple attempts"
+              exit 1
+            fi
+          else
+            echo "No changes detected in js/insta_feed.json"
           fi
