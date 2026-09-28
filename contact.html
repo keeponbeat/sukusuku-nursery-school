@@ -103,10 +103,10 @@
           <div class="form-group" id="child-age-group">
             <label for="child_months">お子様の月齢 <span class="required">必須</span></label>
             <div class="child-age-row">
-              <input type="number" id="child_months" name="child_months" required min="0" max="72" step="1" inputmode="numeric" placeholder="例）18">
+              <input type="number" id="child_months" name="child_months" required min="0" max="24" step="1" inputmode="numeric" placeholder="例）18">
               <span class="child-age-unit">ヶ月</span>
             </div>
-            <p class="form-hint">生後何か月かを数字で入力してください（1歳6ヶ月なら 18）。</p>
+            <p class="form-hint">生後何か月かを数字で入力してください（満2歳まで。1歳6ヶ月なら 18）。</p>
           </div>
 
           <div class="form-group" style="margin-bottom: 2.5rem;">
@@ -120,7 +120,7 @@
         <script>
           // option の value。画面の表示文言は「入園・見学について」
           const ADMISSION_CATEGORY = '見学について';
-          const CHILD_MONTHS_MAX = 72;
+          const CHILD_MONTHS_MAX = 24;
 
           function isAdmissionInquiry() {
             return document.getElementById('category').value === ADMISSION_CATEGORY;
@@ -169,7 +169,7 @@
               }
 
               if (monthsRaw === '' || !Number.isInteger(months) || months < 0 || months > CHILD_MONTHS_MAX) {
-                alert('お子様の月齢は0〜72の整数で入力してください。');
+                alert('お子様の月齢は0〜' + CHILD_MONTHS_MAX + 'の整数（満2歳まで）で入力してください。');
                 event.preventDefault();
                 return false;
               }

@@ -24,7 +24,7 @@ $from_name = "瀬谷すくすく保育園";
 
 // フォーム select の value。画面上の表示は「入園・見学について」
 $admission_category = "見学について";
-$child_months_max = 72;
+$child_months_max = 24;
 
 function inquiry_input_error($message) {
     http_response_code(400);
@@ -64,11 +64,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $child_months_raw = isset($_POST["child_months"]) && is_string($_POST["child_months"]) ? trim($_POST["child_months"]) : "";
         if (!preg_match('/^\d{1,3}$/', $child_months_raw)) {
-            inquiry_input_error("お子様の月齢は0〜" . $child_months_max . "の整数で入力してください。");
+            inquiry_input_error("お子様の月齢は0〜" . $child_months_max . "の整数（満2歳まで）で入力してください。");
         }
         $child_months = (int)$child_months_raw;
         if ($child_months > $child_months_max) {
-            inquiry_input_error("お子様の月齢は0〜" . $child_months_max . "の整数で入力してください。");
+            inquiry_input_error("お子様の月齢は0〜" . $child_months_max . "の整数（満2歳まで）で入力してください。");
         }
     }
 
