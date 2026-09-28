@@ -96,8 +96,17 @@
           </div>
 
           <div class="form-group">
-            <label for="phone">電話番号</label>
-            <input type="tel" id="phone" name="phone" placeholder="例）090-1234-5678">
+            <label for="phone">電話番号 <span class="required" id="phone-required-mark">必須</span></label>
+            <input type="tel" id="phone" name="phone" required placeholder="例）090-1234-5678">
+          </div>
+
+          <div class="form-group" id="child-age-group">
+            <label for="child_months">お子様の月齢 <span class="required">必須</span></label>
+            <div class="child-age-row">
+              <input type="number" id="child_months" name="child_months" required min="0" max="24" step="1" inputmode="numeric" placeholder="例）18">
+              <span class="child-age-unit">ヶ月</span>
+            </div>
+            <p class="form-hint">生後何か月かを数字で入力してください（満2歳まで。1歳6ヶ月なら 18）。</p>
           </div>
 
           <div class="form-group" style="margin-bottom: 2.5rem;">
@@ -109,6 +118,32 @@
         </form>
 
         <script>
+          // option の value。画面の表示文言は「入園・見学について」
+          const ADMISSION_CATEGORY = '見学について';
+          const CHILD_MONTHS_MAX = 24;
+
+          function isAdmissionInquiry() {
+            return document.getElementById('category').value === ADMISSION_CATEGORY;
+          }
+
+          function syncAdmissionFields() {
+            const admission = isAdmissionInquiry();
+            const phone = document.getElementById('phone');
+            const phoneMark = document.getElementById('phone-required-mark');
+            const ageGroup = document.getElementById('child-age-group');
+            const ageInput = document.getElementById('child_months');
+
+            phone.required = admission;
+            phoneMark.hidden = !admission;
+
+            ageGroup.hidden = !admission;
+            ageInput.required = admission;
+            ageInput.disabled = !admission;
+            if (!admission) {
+              ageInput.value = '';
+            }
+          }
+
           function validateContactForm(event) {
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -120,6 +155,24 @@
               alert('必須項目をすべて入力してください。');
               event.preventDefault();
               return false;
+            }
+
+            if (isAdmissionInquiry()) {
+              const phone = document.getElementById('phone').value.trim();
+              const monthsRaw = document.getElementById('child_months').value.trim();
+              const months = Number(monthsRaw);
+
+              if (!phone) {
+                alert('入園・見学についてのお問い合わせでは、電話番号を入力してください。');
+                event.preventDefault();
+                return false;
+              }
+
+              if (monthsRaw === '' || !Number.isInteger(months) || months < 0 || months > CHILD_MONTHS_MAX) {
+                alert('お子様の月齢は0〜' + CHILD_MONTHS_MAX + 'の整数（満2歳まで）で入力してください。');
+                event.preventDefault();
+                return false;
+              }
             }
 
             // メールアドレスの一致チェック
@@ -140,6 +193,11 @@
             // バリデーション成功：そのまま action へ送信されます
             return true;
           }
+
+          document.getElementById('category').addEventListener('change', syncAdmissionFields);
+          document.addEventListener('DOMContentLoaded', syncAdmissionFields);
+          window.addEventListener('pageshow', syncAdmissionFields);
+          syncAdmissionFields();
 
           document.querySelector('.contact-form').onsubmit = validateContactForm;
         </script>

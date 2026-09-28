@@ -22,16 +22,55 @@ $subject_user = "【瀬谷すくすく保育園】お問い合わせありがと
 $from_email = "no-reply@suku2.jp";
 $from_name = "瀬谷すくすく保育園";
 
+// フォーム select の value。画面上の表示は「入園・見学について」
+$admission_category = "見学について";
+$child_months_max = 24;
+
+function inquiry_input_error($message) {
+    http_response_code(400);
+    $safe = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
+    echo "<!DOCTYPE html>\n";
+    echo "<html lang=\"ja\">\n<head>\n<meta charset=\"UTF-8\">\n";
+    echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n";
+    echo "<title>入力エラー | 瀬谷すくすく保育園</title>\n";
+    echo "<link rel=\"stylesheet\" href=\"css/styles.css\">\n</head>\n<body>\n";
+    echo "<div class=\"container\"><main class=\"page-content pt-top\">\n";
+    echo "<h2 class=\"section-title\">入力内容のご確認</h2>\n";
+    echo "<section class=\"card\"><p>" . $safe . "</p>\n";
+    echo "<p><a href=\"contact.html\">お問い合わせフォームに戻る</a></p></section>\n";
+    echo "</main></div>\n</body>\n</html>\n";
+    exit;
+}
+
 // -------------------------------------------------------------------------
 // フォームデータの取得
 // -------------------------------------------------------------------------
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $category = htmlspecialchars($_POST["category"], ENT_QUOTES, 'UTF-8');
+    $category_raw = isset($_POST["category"]) && is_string($_POST["category"]) ? trim($_POST["category"]) : "";
+    $phone_raw = isset($_POST["phone"]) && is_string($_POST["phone"]) ? trim($_POST["phone"]) : "";
+    $category = htmlspecialchars($category_raw, ENT_QUOTES, 'UTF-8');
     $name     = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
     $email    = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
-    $phone    = htmlspecialchars($_POST["phone"], ENT_QUOTES, 'UTF-8');
+    $phone    = htmlspecialchars($phone_raw, ENT_QUOTES, 'UTF-8');
     $message  = htmlspecialchars($_POST["message"], ENT_QUOTES, 'UTF-8');
+
+    $is_admission = ($category_raw === $admission_category);
+    $child_months = null;
+    if ($is_admission) {
+        if ($phone_raw === "") {
+            inquiry_input_error("入園・見学についてのお問い合わせでは、電話番号を入力してください。");
+        }
+
+        $child_months_raw = isset($_POST["child_months"]) && is_string($_POST["child_months"]) ? trim($_POST["child_months"]) : "";
+        if (!preg_match('/^\d{1,3}$/', $child_months_raw)) {
+            inquiry_input_error("お子様の月齢は0〜" . $child_months_max . "の整数（満2歳まで）で入力してください。");
+        }
+        $child_months = (int)$child_months_raw;
+        if ($child_months > $child_months_max) {
+            inquiry_input_error("お子様の月齢は0〜" . $child_months_max . "の整数（満2歳まで）で入力してください。");
+        }
+    }
 
     // -------------------------------------------------------------------------
     // スパム判定
@@ -68,7 +107,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $body_nursery .= "【お問い合わせ種類】: " . $category . "\n";
     $body_nursery .= "【お名前】: " . $name . "\n";
     $body_nursery .= "【メールアドレス】: " . $email . "\n";
-    $body_nursery .= "【電話番号】: " . $phone . "\n\n";
+    $body_nursery .= "【電話番号】: " . $phone . "\n";
+    if ($is_admission) {
+        $body_nursery .= "【お子様の月齢】: " . $child_months . "ヶ月\n";
+    }
+    $body_nursery .= "\n";
     $body_nursery .= "【お問い合わせ内容】:\n" . $message . "\n";
 
     $sent_nursery = mb_send_mail($to_nursery, $subject_nursery, $body_nursery, $headers);
@@ -87,7 +130,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $body_user .= "【お問い合わせ種類】: " . $category . "\n";
     $body_user .= "【お名前】: " . $name . "\n";
     $body_user .= "【メールアドレス】: " . $email . "\n";
-    $body_user .= "【電話番号】: " . $phone . "\n\n";
+    $body_user .= "【電話番号】: " . $phone . "\n";
+    if ($is_admission) {
+        $body_user .= "【お子様の月齢】: " . $child_months . "ヶ月\n";
+    }
+    $body_user .= "\n";
     $body_user .= "【お問い合わせ内容】:\n" . $message . "\n";
     $body_user .= "----------\n\n";
     $body_user .= "※本メールは自動送信されています。\n";
