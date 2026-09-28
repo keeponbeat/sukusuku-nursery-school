@@ -1024,6 +1024,31 @@ footer {
   background-color: #fff;
 }
 
+.form-group[hidden] {
+  display: none;
+}
+
+.child-age-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-group .child-age-row input {
+  width: 8rem;
+}
+
+.child-age-unit {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.form-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
 /* Download List Styles */
 .download-list {
   list-style: none;
