@@ -980,6 +980,24 @@ footer {
 /* Contact Form Styles */
 .contact-form {
   text-align: left;
+  position: relative;
+}
+
+/* 画面に出さず、支援技術とキーボードの対象にもしないスパム対策欄 */
+.contact-hp,
+.contact-hp label,
+.contact-hp input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .form-group {

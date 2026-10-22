@@ -24,6 +24,7 @@ $from_name = "瀬谷すくすく保育園";
 
 // フォーム select の value。画面上の表示は「入園・見学について」
 $admission_category = "見学について";
+$category_values = array("見学について", "採用について", "その他");
 $child_months_max = 24;
 
 function inquiry_input_error($message) {
@@ -42,18 +43,106 @@ function inquiry_input_error($message) {
     exit;
 }
 
+function inquiry_post_string($key) {
+    if (!isset($_POST[$key]) || !is_string($_POST[$key])) {
+        return "";
+    }
+    return $_POST[$key];
+}
+
+function inquiry_scrub($value) {
+    if (!is_string($value)) {
+        return "";
+    }
+    if (function_exists("mb_scrub")) {
+        return mb_scrub($value, "UTF-8");
+    }
+    return $value;
+}
+
+// 1行の項目から、ヘッダーや本文を壊す制御文字を除く
+function inquiry_single_line($value) {
+    $value = inquiry_scrub($value);
+    $stripped = preg_replace('/[\x00-\x1F\x7F\x{2028}\x{2029}]/u', '', $value);
+    if (!is_string($stripped)) {
+        return "";
+    }
+    return trim($stripped);
+}
+
+// お問い合わせ本文。改行は残し、NULL など本文を途中で切る文字だけ除く
+function inquiry_message_text($value) {
+    $value = inquiry_scrub($value);
+    $stripped = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F\x{2028}\x{2029}]/u', '', $value);
+    if (!is_string($stripped)) {
+        return "";
+    }
+    return $stripped;
+}
+
+function inquiry_is_valid_email($email) {
+    if (!is_string($email) || $email === "" || strlen($email) > 254) {
+        return false;
+    }
+    // CR/LF/NUL・空白・制御文字。$ ではなく \z で末尾改行のすり抜けも防ぐ
+    if (preg_match('/[\x00-\x20\x7F]/', $email)) {
+        return false;
+    }
+    if (preg_match('/%0[ad]/i', $email)) {
+        return false;
+    }
+    // ヘッダーを分割・追加できる文字、および引用符付きアドレスは受け付けない
+    if (preg_match('/[<>\"\\\\,;:()\[\]{}]/', $email)) {
+        return false;
+    }
+    if (!preg_match('/\A[A-Za-z0-9._%+\-\']+@[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9\-]{0,61}[A-Za-z0-9])?)+\z/', $email)) {
+        return false;
+    }
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+}
+
+function inquiry_require_email($raw) {
+    if (!is_string($raw)) {
+        inquiry_input_error("正しいメールアドレスの形式を入力してください。");
+    }
+    $email = trim($raw);
+    if ($email === "") {
+        inquiry_input_error("メールアドレスを入力してください。");
+    }
+    if (!inquiry_is_valid_email($email)) {
+        inquiry_input_error("正しいメールアドレスの形式を入力してください。");
+    }
+    return $email;
+}
+
+// 画面に出さない罠欄。空以外（配列を含む）はスパムと同じ扱いにする
+function inquiry_honeypot_filled() {
+    if (!isset($_POST["website"])) {
+        return false;
+    }
+    if (!is_string($_POST["website"])) {
+        return true;
+    }
+    return $_POST["website"] !== "";
+}
+
 // -------------------------------------------------------------------------
 // フォームデータの取得
 // -------------------------------------------------------------------------
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $category_raw = isset($_POST["category"]) && is_string($_POST["category"]) ? trim($_POST["category"]) : "";
-    $phone_raw = isset($_POST["phone"]) && is_string($_POST["phone"]) ? trim($_POST["phone"]) : "";
-    $category = htmlspecialchars($category_raw, ENT_QUOTES, 'UTF-8');
-    $name     = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
-    $email    = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
-    $phone    = htmlspecialchars($phone_raw, ENT_QUOTES, 'UTF-8');
-    $message  = htmlspecialchars($_POST["message"], ENT_QUOTES, 'UTF-8');
+if (($_SERVER["REQUEST_METHOD"] ?? "") === "POST") {
+    if (inquiry_honeypot_filled()) {
+        header("Location: thanks.html");
+        exit;
+    }
+
+    $category_raw = inquiry_single_line(inquiry_post_string("category"));
+    if (!in_array($category_raw, $category_values, true)) {
+        inquiry_input_error("お問い合わせの種類を選択してください。");
+    }
+    $phone_raw = inquiry_single_line(inquiry_post_string("phone"));
+    $name_raw = inquiry_single_line(inquiry_post_string("name"));
+    $message_raw = inquiry_message_text(inquiry_post_string("message"));
 
     $is_admission = ($category_raw === $admission_category);
     $child_months = null;
@@ -71,6 +160,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             inquiry_input_error("お子様の月齢は0〜" . $child_months_max . "の整数（満2歳まで）で入力してください。");
         }
     }
+
+    $email_raw = inquiry_require_email(inquiry_post_string("email"));
+    if (trim(inquiry_post_string("email_confirm")) !== $email_raw) {
+        inquiry_input_error("メールアドレスが一致しません。");
+    }
+
+    $category = htmlspecialchars($category_raw, ENT_QUOTES, 'UTF-8');
+    $name     = htmlspecialchars($name_raw, ENT_QUOTES, 'UTF-8');
+    $email    = htmlspecialchars($email_raw, ENT_QUOTES, 'UTF-8');
+    $phone    = htmlspecialchars($phone_raw, ENT_QUOTES, 'UTF-8');
+    $message  = htmlspecialchars($message_raw, ENT_QUOTES, 'UTF-8');
 
     // -------------------------------------------------------------------------
     // スパム判定
@@ -94,9 +194,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // ヘッダー
+    // ヘッダー。Reply-To には検証済みのアドレスだけを入れる
     $headers = "From: " . mb_encode_mimeheader($from_name, "UTF-8") . " <" . $from_email . ">\r\n";
-    $headers .= "Reply-To: " . $email . "\r\n";
+    $headers .= "Reply-To: " . $email_raw . "\r\n";
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
     $headers .= "Content-Transfer-Encoding: 8bit\r\n";
 
@@ -118,25 +218,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // -------------------------------------------------------------------------
     // 2. ユーザーへの自動返信メール
+    // 入力された名前や本文は載せない（第三者への迷惑メール中継に使わせない）
     // -------------------------------------------------------------------------
     $headers_user = "From: " . mb_encode_mimeheader($from_name, "UTF-8") . " <" . $from_email . ">\r\n";
     $headers_user .= "Content-Type: text/plain; charset=UTF-8\r\n";
     $headers_user .= "Content-Transfer-Encoding: 8bit\r\n";
 
-    $body_user = $name . " 様\n\n";
+    $body_user = "お問い合わせいただいた方へ\n\n";
     $body_user .= "お問い合わせありがとうございます。瀬谷すくすく保育園です。\n";
-    $body_user .= "以下の内容で承りました。内容を確認の上、担当者より折り返しご連絡いたします。\n\n";
-    $body_user .= "----------\n";
-    $body_user .= "【お問い合わせ種類】: " . $category . "\n";
-    $body_user .= "【お名前】: " . $name . "\n";
-    $body_user .= "【メールアドレス】: " . $email . "\n";
-    $body_user .= "【電話番号】: " . $phone . "\n";
-    if ($is_admission) {
-        $body_user .= "【お子様の月齢】: " . $child_months . "ヶ月\n";
-    }
-    $body_user .= "\n";
-    $body_user .= "【お問い合わせ内容】:\n" . $message . "\n";
-    $body_user .= "----------\n\n";
+    $body_user .= "内容を確認の上、担当者より折り返しご連絡いたします。\n\n";
     $body_user .= "※本メールは自動送信されています。\n";
     $body_user .= "もし心当たりがない場合は、お手数ですが破棄してください。\n\n";
     $body_user .= "----------------------------\n";
@@ -146,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $body_user .= "URL: https://suku2.jp\n";
     $body_user .= "----------------------------\n";
 
-    mb_send_mail($email, $subject_user, $body_user, $headers_user);
+    mb_send_mail($email_raw, $subject_user, $body_user, $headers_user);
 
     // 完了ページへリダイレクト
     header("Location: thanks.html");
