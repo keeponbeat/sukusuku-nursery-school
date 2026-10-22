@@ -1,4 +1,5 @@
 <?php
+header_remove('X-Powered-By');
 /**
  * お問い合わせフォーム送信処理 (Lolipopサーバー用)
  */
