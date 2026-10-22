@@ -82,7 +82,7 @@
 
           <div class="form-group">
             <label for="name">お名前 <span class="required">必須</span></label>
-            <input type="text" id="name" name="name" required placeholder="例）瀬谷 太郎">
+            <input type="text" id="name" name="name" required maxlength="50" placeholder="例）瀬谷 太郎">
           </div>
 
           <div class="form-group">
@@ -158,6 +158,19 @@
             // 必須項目のチェック
             if (!name || !email || !emailConfirm || !message) {
               alert('必須項目をすべて入力してください。');
+              event.preventDefault();
+              return false;
+            }
+
+            const nameRaw = document.getElementById('name').value;
+            const nameCompact = name.toLowerCase().replace(/\s+/g, '');
+            if (/[\r\n]/.test(nameRaw) || [...name].length > 50) {
+              alert('お名前は改行を含まない50文字以内で入力してください。');
+              event.preventDefault();
+              return false;
+            }
+            if (nameCompact.includes('http') || nameCompact.includes('www') || nameCompact.includes('://')) {
+              alert('お名前にURLは入力できません。');
               event.preventDefault();
               return false;
             }

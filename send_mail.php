@@ -26,6 +26,7 @@ $from_name = "瀬谷すくすく保育園";
 $admission_category = "見学について";
 $category_values = array("見学について", "採用について", "その他");
 $child_months_max = 24;
+$name_max_length = 50;
 
 function inquiry_input_error($message) {
     http_response_code(400);
@@ -115,6 +116,58 @@ function inquiry_require_email($raw) {
     return $email;
 }
 
+// 自動返信の宛名に使う。改行やURL・宣伝文は受け付けない
+function inquiry_require_name($raw) {
+    global $name_max_length;
+    if (!is_string($raw) || !mb_check_encoding($raw, "UTF-8")) {
+        inquiry_input_error("お名前を入力してください。");
+    }
+    if (preg_match('/[\x00-\x1F\x7F\x{2028}\x{2029}]/u', $raw)) {
+        inquiry_input_error("お名前は改行を含まない" . $name_max_length . "文字以内で入力してください。");
+    }
+    $name = trim($raw);
+    if ($name === "") {
+        inquiry_input_error("お名前を入力してください。");
+    }
+    if (mb_strlen($name, "UTF-8") > $name_max_length) {
+        inquiry_input_error("お名前は" . $name_max_length . "文字以内で入力してください。");
+    }
+    if (inquiry_name_is_promo($name)) {
+        inquiry_input_error("お名前にURLは入力できません。");
+    }
+    return $name;
+}
+
+function inquiry_name_is_promo($name) {
+    $normalized = mb_convert_kana($name, "as", "UTF-8");
+    $normalized = strtr($normalized, array(
+        "．" => ".",
+        "。" => ".",
+        "：" => ":",
+        "／" => "/",
+        "＼" => "\\",
+        "＠" => "@",
+    ));
+    $folded = mb_strtolower($normalized, "UTF-8");
+    $compact = preg_replace('/\s+/u', "", $folded);
+    if (!is_string($compact)) {
+        return true;
+    }
+    if (mb_strpos($folded, "http", 0, "UTF-8") !== false || mb_strpos($compact, "http", 0, "UTF-8") !== false) {
+        return true;
+    }
+    if (mb_strpos($folded, "www", 0, "UTF-8") !== false || mb_strpos($compact, "www", 0, "UTF-8") !== false) {
+        return true;
+    }
+    if (strpos($compact, "://") !== false) {
+        return true;
+    }
+    if (preg_match('/(?:[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?\.)+(?:com|net|org|jp|info|biz|xyz|top|online|site|link|click|ru|cn|uk|io|me|co|tv|app|dev|shop|email|page|cc|ly|gl|be|to|us|eu|de|fr|kr|tw|hk|sg|edu|gov|ne|or|ac|go)\b/i', $compact)) {
+        return true;
+    }
+    return false;
+}
+
 // 画面に出さない罠欄。空以外（配列を含む）はスパムと同じ扱いにする
 function inquiry_honeypot_filled() {
     if (!isset($_POST["website"])) {
@@ -141,7 +194,7 @@ if (($_SERVER["REQUEST_METHOD"] ?? "") === "POST") {
         inquiry_input_error("お問い合わせの種類を選択してください。");
     }
     $phone_raw = inquiry_single_line(inquiry_post_string("phone"));
-    $name_raw = inquiry_single_line(inquiry_post_string("name"));
+    $name_raw = inquiry_require_name(inquiry_post_string("name"));
     $message_raw = inquiry_message_text(inquiry_post_string("message"));
 
     $is_admission = ($category_raw === $admission_category);
@@ -218,13 +271,13 @@ if (($_SERVER["REQUEST_METHOD"] ?? "") === "POST") {
 
     // -------------------------------------------------------------------------
     // 2. ユーザーへの自動返信メール
-    // 入力された名前や本文は載せない（第三者への迷惑メール中継に使わせない）
+    // 宛名だけ名前を使う。お問い合わせ内容は載せない
     // -------------------------------------------------------------------------
     $headers_user = "From: " . mb_encode_mimeheader($from_name, "UTF-8") . " <" . $from_email . ">\r\n";
     $headers_user .= "Content-Type: text/plain; charset=UTF-8\r\n";
     $headers_user .= "Content-Transfer-Encoding: 8bit\r\n";
 
-    $body_user = "お問い合わせいただいた方へ\n\n";
+    $body_user = $name . " 様\n\n";
     $body_user .= "お問い合わせありがとうございます。瀬谷すくすく保育園です。\n";
     $body_user .= "内容を確認の上、担当者より折り返しご連絡いたします。\n\n";
     $body_user .= "※本メールは自動送信されています。\n";
